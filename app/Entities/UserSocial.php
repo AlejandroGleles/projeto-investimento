@@ -2,14 +2,14 @@
 
 namespace App\Entities;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class User extends Authenticatable
+
+class UserSocial extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
@@ -20,11 +20,11 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'cpf',
-        'name',
-        'phone',
-        'birth',
-        'gender',
+        'user_id',
+        'social_netwoek',
+        'social_id',
+        'social_email',
+        'social_avatar',
         'notas',
         'email',
         'password',
@@ -38,8 +38,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        
     ];
 
     /**

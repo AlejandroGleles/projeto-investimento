@@ -10,6 +10,9 @@
     -moz-box-sizing: border-box;    /* Para compatibilidade com navegadores mais antigos baseados em Gecko */
 }
 
+body{
+    background: #f7f7f7;
+}
 
 /*
 styleshet to login pages
@@ -82,4 +85,50 @@ section#conteudo-view button{
     font: 1em'Fresoka One', cursive;
 
 
+}
+
+/*
+styleshet to menu lateral
+
+*/
+#principal{
+    position: fixed;
+    float: left;
+    width: 220px;
+    height: 100%;
+    background: #fff;
+    border-right: 1px solid #e9e9e9;
+    box-shadow: 0 0 15px rgb(0, 0, .15);
+}
+#principal ul
+#principal ul li{
+    float: left;
+    width: 100%;
+}
+#principal ul li a{
+    float: left;
+    width: 100%;
+    height: 80px;
+    color: #9c9c9c;
+    border-bottom: 1px solid #e9e9e9;
+
+}
+#principal ul li a i{
+    float: left;
+    height: 80px;
+    width: 80px;
+    color: inherit;
+    text-align: center;
+    line-height: 80px;
+    font-size: 2em;
+}
+#principal ul li a h3{
+    float: left;
+    height: 80px;
+    width: 80px;
+    font: 1.25em/80px 'Fredoka One', cursive;
+    color: inherit;
+}
+#principal ul li a:hover{
+    color: #00ff9c;
 }

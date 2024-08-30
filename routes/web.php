@@ -24,4 +24,4 @@ Route::get('/cadastro', [Controller::class, 'cadastrar']);
  */
 Route::get('/login', [Controller::class, 'fazerLogin'])->name('login.form');
 Route::post('/login', [DashboardController::class, 'auth'])->name('user.login');
-Route::post('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');

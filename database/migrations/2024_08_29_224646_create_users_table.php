@@ -16,7 +16,7 @@ return new class extends Migration
             $table->increments('id');
 
 			//people data
-			$table->string('cpf, 11')->unique()->nullable();
+			$table->string('cpf' ,11)->unique()->nullable();
 			$table->string('name',50);
 			$table->char('phone',11);
 			$table->date('birth')->nullable();

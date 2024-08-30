@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        /*
         Schema::create('user_socials', function (Blueprint $table) {
             $table->id();
 
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->foreign('social_email')->references('email')->on('users');
 
         });
+        */
     }
 
     /**
@@ -33,6 +35,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        /*
         Schema::create('user_socials', function (Blueprint $table) {
             $table->dropForeign('user_socials_user_id_foreign');
             $table->dropForeign('user_socials_social_email_foreign');
@@ -41,5 +44,6 @@ return new class extends Migration
 
 
         Schema::dropIfExists('user_socials');
+        */
     }
 };

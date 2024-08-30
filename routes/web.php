@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 
@@ -22,6 +23,9 @@ Route::get('/cadastro', [Controller::class, 'cadastrar']);
  * Routes to user auth
  * 
  */
+
 Route::get('/login', [Controller::class, 'fazerLogin'])->name('login.form');
 Route::post('/login', [DashboardController::class, 'auth'])->name('user.login');
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');
+
+Route::get('/user', [UsersController::class, 'index'])->name('user.index');

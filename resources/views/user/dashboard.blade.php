@@ -9,5 +9,5 @@
 @endsection
 
 @section('conteudo-view')
-    Dashboard
+    teste
 @endsection

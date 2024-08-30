@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Controller;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-use App\Http\Controllers\Controller;
 
 Route::get('/', [Controller::class, 'homepage']);
 Route::get('/cadastro', [Controller::class, 'cadastrar']);
-Route::get('/login', [Controller::class, 'fazerLogin']);
+
+/**
+ * Routes to user auth
+ * 
+ */
+Route::get('/login', [Controller::class, 'fazerLogin'])->name('login.form');
+Route::post('/login', [DashboardController::class, 'auth'])->name('user.login');
+Route::post('/dashboard', [DashboardController::class, 'index'])->name('user.dashboard');

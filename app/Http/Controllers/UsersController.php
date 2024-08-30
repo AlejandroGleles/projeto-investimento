@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Prettus\Validator\Contracts\ValidatorInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\Contracts\View\View;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Repositories\UserRepository;
 use App\Validators\UserValidator;
+use Prettus\Validator\Contracts\ValidatorInterface;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
  * Class UsersController.
@@ -44,7 +46,7 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View|JsonResponse
      */
     public function index()
     {
@@ -52,7 +54,6 @@ class UsersController extends Controller
         $users = $this->repository->all();
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $users,
             ]);
@@ -65,15 +66,12 @@ class UsersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  UserCreateRequest $request
-     *
-     * @return \Illuminate\Http\Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @return JsonResponse|RedirectResponse
+     * @throws ValidatorException
      */
     public function store(UserCreateRequest $request)
     {
         try {
-
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
 
             $user = $this->repository->create($request->all());
@@ -84,7 +82,6 @@ class UsersController extends Controller
             ];
 
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
 
@@ -105,15 +102,13 @@ class UsersController extends Controller
      * Display the specified resource.
      *
      * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View|JsonResponse
      */
     public function show($id)
     {
         $user = $this->repository->find($id);
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $user,
             ]);
@@ -126,8 +121,7 @@ class UsersController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function edit($id)
     {
@@ -141,15 +135,12 @@ class UsersController extends Controller
      *
      * @param  UserUpdateRequest $request
      * @param  string            $id
-     *
-     * @return Response
-     *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @return JsonResponse|RedirectResponse
+     * @throws ValidatorException
      */
     public function update(UserUpdateRequest $request, $id)
     {
         try {
-
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             $user = $this->repository->update($request->all(), $id);
@@ -160,15 +151,12 @@ class UsersController extends Controller
             ];
 
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
 
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
-
             if ($request->wantsJson()) {
-
                 return response()->json([
                     'error'   => true,
                     'message' => $e->getMessageBag()
@@ -179,20 +167,17 @@ class UsersController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
-     *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse|RedirectResponse
      */
     public function destroy($id)
     {
         $deleted = $this->repository->delete($id);
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'message' => 'User deleted.',
                 'deleted' => $deleted,

@@ -20,9 +20,13 @@ class Controller extends BaseController
     {
         echo"Tela de Cadastro";
     }
+    /**
+ * method to user login VIEW
+ * 
+ */
     public function fazerLogin()
     {
-        echo"Tela de login";
+        return view("user.login");
         
     }
     

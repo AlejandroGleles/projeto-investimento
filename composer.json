@@ -10,7 +10,9 @@
         "laravel/framework": "^10.10",
         "laravel/sanctum": "^3.3",
         "laravel/tinker": "^2.8",
-        "prettus/l5-repository": "^2.9"
+        "league/fractal": "^0.20.1",
+        "prettus/l5-repository": "^2.9",
+        "spatie/laravel-html": "^3.5"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",

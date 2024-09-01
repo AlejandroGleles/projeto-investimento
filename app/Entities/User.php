@@ -8,17 +8,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'cpf',
         'name',
@@ -32,44 +26,50 @@ class User extends Authenticatable
         'permission',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
     public $timestamps = true;
     protected $table = 'Users';
 
+    // Mutator para salvar CPF sem formatação
+    public function setCpfAttribute($value)
+    {
+        $this->attributes['cpf'] = preg_replace('/\D/', '', $value);
+    }
+
+    // Mutator para salvar telefone sem formatação
+    public function setPhoneAttribute($value)
+    {
+        $this->attributes['phone'] = preg_replace('/\D/', '', $value);
+    }
+
+    // Accessor para formatar CPF na exibição
     public function getCpfAttribute()
     {
         $cpf = $this->attributes['cpf'];
-        return substr($cpf,0,3) .'.' . substr($cpf,3,3) .'.' . substr($cpf,7,3) .'-' . substr($cpf,-2);
+        return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9);
     }
+
+    // Accessor para formatar telefone na exibição
     public function getPhoneAttribute()
     {
         $phone = $this->attributes['phone'];
-        return "(" . substr($phone,0,2) . ") " . substr($phone,2,4) . "-" . substr($phone, -4);
+        return "(" . substr($phone, 0, 2) . ") " . substr($phone, 2, 4) . "-" . substr($phone, 6);
     }
+
     public function getBirthAttribute()
     {
         $birth = explode('-', $this->attributes['birth']);
         if (count($birth) != 3) 
             return "";
-        $birth = $birth[0] .'/'. $birth[1] .'/'. $birth[2];
-        return $birth;
-  }
+        return $birth[0] . '/' . $birth[1] . '/' . $birth[2];
+    }
 }

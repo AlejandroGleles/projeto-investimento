@@ -10,7 +10,13 @@
 
 @section('conteudo-view')
     <!-- Início do Formulário -->
-    <form method="post" class="form-padrao">
+     @if (session('success'))
+        <h3>{{session('success')['messages']}}</h3>
+        @else
+        <h3>Nao houve retorno.</h3>
+     @endif
+
+    <form method="post" class="form-padrao" action="{{ route('user.store') }}">
         @csrf
 
         @include('templates.formulario.input', [

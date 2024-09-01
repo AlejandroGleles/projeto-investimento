@@ -23,19 +23,20 @@ class DashboardController extends Controller
     }
     public function auth(Request $request)
     {
-        $data =[
-            'email'    => $request->get('username'),
-            'Password' => $request->get('password'),
+        // Assegure que o valor de 'email' corresponde ao campo no banco de dados
+        $credentials = [
+            'email'    => $request->get('username'), // Altere para 'username' se necessário
+            'password' => $request->get('password'), // 'password' deve ser com 'p' minúsculo
         ];
         
-        try
-        {   
-        
-             \Auth::attempt($data,false);
-             return redirect()->route('user.dashboard');
-        } catch (\Exception $e) {
-            return $e->getMessage();    
+        if (\Auth::attempt($credentials)) {
+            // Se as credenciais forem válidas, redirecione para o dashboard
+            return redirect()->route('user.dashboard');
+        } else {
+            // Se as credenciais não coincidirem, redirecione de volta com uma mensagem de erro
+            return redirect()->route('login.form')
+                ->withErrors(['error' => 'Credenciais inválidas. Por favor, tente novamente.']);
         }
-
     }
+    
 }

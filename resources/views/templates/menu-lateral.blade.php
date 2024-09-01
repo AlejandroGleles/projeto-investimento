@@ -1,7 +1,7 @@
 <nav id="principal">
     <ul>
         <li>
-            <a href="">
+            <a href="{{ route('user.index')}}">
                 <i class=""><span class="material-symbols-outlined">account_circle</span></span></i>
                 <h3>Usuario</h3>
             </a>

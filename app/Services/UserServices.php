@@ -20,22 +20,23 @@ class UserServices
         {
             $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_CREATE);
             $usuario = $this->repository->create($data);
-
-            return[
+    
+            return [
                 'success' => true,
-                'message' => "Usuario cadastrado",
+                'messages' => "Usuário cadastrado",
                 'data'    => $usuario,
             ];
         
         }
         catch (\Exception $e)
         {
-            return[
+            return [
                 'success' => false,
-                'message'=> $e->getMessage(),
+                'messages' => "Erro de execução",
             ];
         }
     }
+    
     public function update(){}
     public function delete(){}
 }

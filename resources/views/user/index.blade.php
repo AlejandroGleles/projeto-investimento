@@ -60,6 +60,7 @@
                 <td>E-mail</td>
                 <td>Status</td>
                 <td>Permisão</td>
+                <td>Menu</td>
             </tr>
         </thead>
         <tbody>
@@ -75,6 +76,15 @@
              <td>{{$user->email}}</td>
              <td>{{$user->status}}</td>
              <td>{{$user->permission}}</td>
+             <td>
+             <td>
+    <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger">Remover</button>
+    </form>
+</td>
+
 
 
             </tr>

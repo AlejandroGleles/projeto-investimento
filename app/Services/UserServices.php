@@ -38,5 +38,25 @@ class UserServices
     }
     
     public function update(){}
-    public function delete(){}
+    public function delete($user_id)
+{
+    try 
+    {
+        $this->repository->delete($user_id); // Corrigido para deletar o usuário
+        
+        return [
+            'success' => true,
+            'messages' => "Usuário removido",
+            'data'    => null,
+        ];
+    }
+    catch (\Exception $e)
+    {
+        return [
+            'success' => false,
+            'messages' => "Erro de execução: " . $e->getMessage(), // Incluindo mensagem de erro para debug
+        ];
+    }
+}
+
 }

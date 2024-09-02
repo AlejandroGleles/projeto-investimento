@@ -13,7 +13,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="{{ route('group.index')}}">
                 <i class=""><span class="material-symbols-outlined">groups</span></i>
                 <h3>Grupo</h3>
             </a>

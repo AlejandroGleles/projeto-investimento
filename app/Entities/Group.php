@@ -24,7 +24,7 @@ class Group extends Model implements Transformable
 
     public function owner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class,'user_id');
     }
 
    /* public  Instituition()*/

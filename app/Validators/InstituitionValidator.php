@@ -12,13 +12,12 @@ use \Prettus\Validator\LaravelValidator;
  */
 class InstituitionValidator extends LaravelValidator
 {
-    /**
-     * Validation Rules
-     *
-     * @var array
-     */
     protected $rules = [
-        ValidatorInterface::RULE_CREATE => [],
-        ValidatorInterface::RULE_UPDATE => [],
+        ValidatorInterface::RULE_CREATE => [
+            'name' => 'required|string|max:255',
+        ],
+        ValidatorInterface::RULE_UPDATE => [
+            'name' => 'required|string|max:255',
+        ],
     ];
 }

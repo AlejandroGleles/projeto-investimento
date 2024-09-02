@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
-use App\Http\Requests;
-use Prettus\Validator\Contracts\ValidatorInterface;
-use Prettus\Validator\Exceptions\ValidatorException;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\Factory;
+use Illuminate\View\View;
 use App\Http\Requests\InstituitionCreateRequest;
 use App\Http\Requests\InstituitionUpdateRequest;
 use App\Repositories\InstituitionRepository;
 use App\Validators\InstituitionValidator;
+use App\Services\InstituitionService;
+use Prettus\Validator\Contracts\ValidatorInterface;
+use Prettus\Validator\Exceptions\ValidatorException;
 
 /**
  * Class InstituitionsController.
@@ -29,36 +32,33 @@ class InstituitionsController extends Controller
      */
     protected $validator;
 
+    protected $service;
+
     /**
      * InstituitionsController constructor.
      *
      * @param InstituitionRepository $repository
      * @param InstituitionValidator $validator
+     * @param InstituitionService $service
      */
-    public function __construct(InstituitionRepository $repository, InstituitionValidator $validator)
+    public function __construct(InstituitionRepository $repository, InstituitionService $service)
     {
         $this->repository = $repository;
-        $this->validator  = $validator;
+      
+        $this->service = $service;
     }
 
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View|JsonResponse
      */
-    public function index()
+    public function index(): View
     {
-        $this->repository->pushCriteria(app('Prettus\Repository\Criteria\RequestCriteria'));
         $instituitions = $this->repository->all();
-
-        if (request()->wantsJson()) {
-
-            return response()->json([
-                'data' => $instituitions,
-            ]);
-        }
-
-        return view('instituitions.index', compact('instituitions'));
+        return view("instituitions.index", [
+            "instituitions" => $instituitions
+        ]);
     }
 
     /**
@@ -66,39 +66,21 @@ class InstituitionsController extends Controller
      *
      * @param  InstituitionCreateRequest $request
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse|RedirectResponse
      *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws ValidatorException
      */
     public function store(InstituitionCreateRequest $request)
     {
-        try {
+        $result = $this->service->store($request->all());
+        $instituition = $result['success'] ? $result['data'] : null;
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_CREATE);
+        session()->flash("success", [
+            'success' => $result['success'],
+            'messages' => $result['messages'],
+        ]);
 
-            $instituition = $this->repository->create($request->all());
-
-            $response = [
-                'message' => 'Instituition created.',
-                'data'    => $instituition->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return redirect()->route('instituition.index');
     }
 
     /**
@@ -106,14 +88,13 @@ class InstituitionsController extends Controller
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View|JsonResponse
      */
     public function show($id)
     {
         $instituition = $this->repository->find($id);
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'data' => $instituition,
             ]);
@@ -127,12 +108,11 @@ class InstituitionsController extends Controller
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return Factory|View
      */
     public function edit($id)
     {
         $instituition = $this->repository->find($id);
-
         return view('instituitions.edit', compact('instituition'));
     }
 
@@ -140,16 +120,15 @@ class InstituitionsController extends Controller
      * Update the specified resource in storage.
      *
      * @param  InstituitionUpdateRequest $request
-     * @param  string            $id
+     * @param  string $id
      *
-     * @return Response
+     * @return JsonResponse|RedirectResponse
      *
-     * @throws \Prettus\Validator\Exceptions\ValidatorException
+     * @throws ValidatorException
      */
     public function update(InstituitionUpdateRequest $request, $id)
     {
         try {
-
             $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
 
             $instituition = $this->repository->update($request->all(), $id);
@@ -160,15 +139,12 @@ class InstituitionsController extends Controller
             ];
 
             if ($request->wantsJson()) {
-
                 return response()->json($response);
             }
 
             return redirect()->back()->with('message', $response['message']);
         } catch (ValidatorException $e) {
-
             if ($request->wantsJson()) {
-
                 return response()->json([
                     'error'   => true,
                     'message' => $e->getMessageBag()
@@ -179,20 +155,18 @@ class InstituitionsController extends Controller
         }
     }
 
-
     /**
      * Remove the specified resource from storage.
      *
      * @param  int $id
      *
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse|RedirectResponse
      */
     public function destroy($id)
     {
         $deleted = $this->repository->delete($id);
 
         if (request()->wantsJson()) {
-
             return response()->json([
                 'message' => 'Instituition deleted.',
                 'deleted' => $deleted,

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UsersController;
+use App\Http\Controllers\InstituitionsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 
@@ -31,3 +32,4 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dash
 /*Route::get('/user', [UsersController::class, 'index'])->name('user.index');
 */
 Route::resource('user', UsersController::class);
+Route::resource('instituition', InstituitionsController::class);

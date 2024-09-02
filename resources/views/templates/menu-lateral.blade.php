@@ -7,7 +7,7 @@
             </a>
         </li>
         <li>
-            <a href="">
+            <a href="{{ route('instituition.index')}}">
                 <i class=""><span class="material-symbols-outlined">account_balance</span></i>
                 <h3>Instituição</h3>
             </a>

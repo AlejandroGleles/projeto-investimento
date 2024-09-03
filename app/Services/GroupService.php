@@ -36,4 +36,28 @@ class GroupService
             ];
         }
     }
+
+    public function userStore($group_id,$data)
+    {
+        try 
+        {
+            $group = $this->repository->find($group_id);
+            $user_id =$data['user_id'];
+            $group->users()->attach($user_id);
+    
+            return [
+                'success' => true,
+                'messages' => "Usuario relacionado com sucesso!",
+                'data'    => $group,
+            ];
+        }
+        catch (\Exception $e)
+        {
+            return [
+                'success' => false,
+                'messages' => "Erro de execução: " . $e->getMessage(), // Incluindo mensagem de erro para debug
+            ];
+        }
+
+    }
 }

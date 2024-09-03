@@ -26,6 +26,11 @@ class User extends Authenticatable
         'permission',
     ];
 
+    public function groups()
+    {
+        return $this->belongsToMany(User::class,'user_groups');
+    }
+
     protected $hidden = [
         'password',
         'remember_token',
@@ -40,32 +45,23 @@ class User extends Authenticatable
     protected $table = 'Users';
 
     // Mutator para salvar CPF sem formatação
-    public function setCpfAttribute($value)
-    {
-        $this->attributes['cpf'] = preg_replace('/\D/', '', $value);
-    }
 
-    // Mutator para salvar telefone sem formatação
-    public function setPhoneAttribute($value)
-    {
-        $this->attributes['phone'] = preg_replace('/\D/', '', $value);
-    }
 
     // Accessor para formatar CPF na exibição
-    public function getCpfAttribute()
+    public function getFormattedCpfAttribute()
     {
         $cpf = $this->attributes['cpf'];
         return substr($cpf, 0, 3) . '.' . substr($cpf, 3, 3) . '.' . substr($cpf, 6, 3) . '-' . substr($cpf, 9);
     }
 
     // Accessor para formatar telefone na exibição
-    public function getPhoneAttribute()
+    public function getFormattedPhoneAttribute()
     {
         $phone = $this->attributes['phone'];
         return "(" . substr($phone, 0, 2) . ") " . substr($phone, 2, 4) . "-" . substr($phone, 6);
     }
 
-    public function getBirthAttribute()
+    public function getFormattedBirthAttribute()
     {
         $birth = explode('-', $this->attributes['birth']);
         if (count($birth) != 3) 

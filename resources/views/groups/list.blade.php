@@ -20,7 +20,11 @@
     @csrf
     @method('DELETE')
     <button type="submit" class="btn btn-danger">Remover</button>
-</form></th>
+</form>
+<a href="{{ route('group.show',$group->id)}}">Detalhes</a>
+
+
+</th>
 
 
     </tr>

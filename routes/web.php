@@ -35,3 +35,5 @@ Route::get('/dashboard', [DashboardController::class, 'index'])->name('user.dash
 Route::resource('user', UsersController::class);
 Route::resource('instituition', InstituitionsController::class);
 Route::resource('group', GroupsController::class);
+
+Route::post('group/{group_id}/user', [GroupsController::class, 'userStore'])->name('group.user.store');

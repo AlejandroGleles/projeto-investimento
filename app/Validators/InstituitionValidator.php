@@ -16,8 +16,6 @@ class InstituitionValidator extends LaravelValidator
         ValidatorInterface::RULE_CREATE => [
             'name' => 'required|string|max:255',
         ],
-        ValidatorInterface::RULE_UPDATE => [
-            'name' => 'required|string|max:255',
-        ],
+        ValidatorInterface::RULE_UPDATE => [],
     ];
 }

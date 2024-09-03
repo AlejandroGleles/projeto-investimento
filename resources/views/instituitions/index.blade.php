@@ -38,6 +38,8 @@
     <button type="submit" class="btn btn-danger">Remover</button>
 </form>
 <a href="{{ route('instituition.show',$inst->id)}}">Detalhes</a>
+<a href="{{ route('instituition.edit',$inst->id)}}">Editar</a>
+
                 </th>
                 
             </tr>

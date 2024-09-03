@@ -10,6 +10,7 @@ use App\Repositories\InstituitionRepository;
 use App\Repositories\UserRepository;
 use App\Validators\GroupValidator;
 use App\Services\GroupService;
+use App\Entities\Group;
 
 /**
  * Class GroupsController.
@@ -139,9 +140,15 @@ class GroupsController extends Controller
      */
     public function edit($id)
     {
-        $group = $this->repository->find($id);
+        $group = Group::find($id);
+        $user_list = $this->userRepository->selectBoxList();
+        $instituition = $this->instituitionRepository->selectBoxList();
 
-        return view('groups.edit', compact('group'));
+        return view('groups.edit', [
+            'group'=> $group,
+            'user_list'=>$user_list,
+            'instituition'=>$instituition,
+        ]);
     }
 
     /**
@@ -154,37 +161,17 @@ class GroupsController extends Controller
      *
      * @throws \Prettus\Validator\Exceptions\ValidatorException
      */
-    public function update(GroupUpdateRequest $request, $id)
+    public function update(Request $request,$group_id)
     {
-        try {
+        $result = $this->service->update($group_id, $request->all());
+        
 
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
+        session()->flash("success", [
+            'success' => $result['success'],
+            'messages' => $result['messages'],
+        ]);
 
-            $group = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'Group updated.',
-                'data'    => $group->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-
-            if ($request->wantsJson()) {
-
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        return redirect()->route('group.index');
     }
 
 

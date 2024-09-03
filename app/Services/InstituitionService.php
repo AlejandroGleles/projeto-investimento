@@ -38,4 +38,29 @@ class InstituitionService
         }
     }
 
+    public function update(array $data, $id)
+{
+    try
+    {
+        $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+
+        $instituition = $this->repository->update($data, $id);
+
+        return [
+            'success' => true,
+            'messages' => "Instituição atualizada",
+            'data'    => $instituition,
+        ];
+    }
+    catch (\Exception $e)
+    {
+        return [
+            'success' => false,
+            'messages' => "Erro de execução: " . $e->getMessage(),
+        ];
+    }
+}
+
+
+
 }

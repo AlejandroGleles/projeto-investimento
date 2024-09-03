@@ -26,12 +26,13 @@
              <td>{{$user->status}}</td>
              <td>{{$user->permission}}</td>
              <td>
-             <td>
+             
     <form action="{{ route('user.destroy', $user->id) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-danger">Remover</button>
     </form>
+    <a href="{{ route('user.edit',$user->id)}}">Edite</a>
 </td>
 
 

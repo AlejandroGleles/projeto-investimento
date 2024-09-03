@@ -109,7 +109,10 @@ class UsersController extends Controller
     {
         $user = $this->repository->find($id);
 
-        return view('users.edit', compact('user'));
+        return view('user.edit',[
+            'user'=> $user,
+        ]
+        );
     }
 
     /**
@@ -120,33 +123,17 @@ class UsersController extends Controller
      * @return JsonResponse|RedirectResponse
      * @throws ValidatorException
      */
-    public function update(UserUpdateRequest $request, $id)
+    public function update(Request $request, $id)
     {
-        try {
-            $this->validator->with($request->all())->passesOrFail(ValidatorInterface::RULE_UPDATE);
-
-            $user = $this->repository->update($request->all(), $id);
-
-            $response = [
-                'message' => 'User updated.',
-                'data'    => $user->toArray(),
-            ];
-
-            if ($request->wantsJson()) {
-                return response()->json($response);
-            }
-
-            return redirect()->back()->with('message', $response['message']);
-        } catch (ValidatorException $e) {
-            if ($request->wantsJson()) {
-                return response()->json([
-                    'error'   => true,
-                    'message' => $e->getMessageBag()
-                ]);
-            }
-
-            return redirect()->back()->withErrors($e->getMessageBag())->withInput();
-        }
+        $result = $this->service->update($request->all(),$id);
+        $usuario = $result['success'] ? $result['data'] : null;
+    
+        session()->flash("success", [
+            'success' => $result['success'],
+            'messages' => $result['messages'],
+        ]);
+    
+        return redirect()->route('user.index')->with('usuario', $usuario);
     }
 
     /**

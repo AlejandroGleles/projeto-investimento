@@ -37,7 +37,27 @@ class UserServices
     }
     
     
-    public function update(){}
+    public function update($data,$id)
+    {
+        try 
+        {
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $usuario = $this->repository->update($data, $id);
+    
+            return [
+                'success' => true,
+                'messages' => "Usuário Atualizado",
+                'data'    => $usuario,
+            ];
+        }
+        catch (\Exception $e)
+        {
+            return [
+                'success' => false,
+                'messages' => "Erro de execução: " . $e->getMessage(), // Incluindo mensagem de erro para debug
+            ];
+        }
+    }
     public function delete($user_id) {
         try {
             // Verifica se o usuário existe

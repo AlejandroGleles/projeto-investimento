@@ -37,6 +37,29 @@ class GroupService
         }
     }
 
+    public function update($group_id, array $data):array
+    {
+        try 
+        {
+            $this->validator->with($data)->passesOrFail(ValidatorInterface::RULE_UPDATE);
+            $group = $this->repository->update($data,$group_id);
+    
+            return [
+                'success' => true,
+                'messages' => "Grupo Atualizado",
+                'data'    => $group,
+            ];
+        }
+        catch (\Exception $e)
+        {
+            return [
+                'success' => false,
+                'messages' => "Erro de execução: " . $e->getMessage(), // Incluindo mensagem de erro para debug
+            ];
+        }
+
+    }  
+
     public function userStore($group_id,$data)
     {
         try 

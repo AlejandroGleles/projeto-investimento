@@ -22,6 +22,7 @@
     <button type="submit" class="btn btn-danger">Remover</button>
 </form>
 <a href="{{ route('group.show',$group->id)}}">Detalhes</a>
+<a href="{{ route('group.edit',$group->id)}}">Editar</a>
 
 
 </th>

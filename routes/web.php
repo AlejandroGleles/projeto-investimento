@@ -4,6 +4,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\GroupsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\InstituitionsController;
+use App\Http\Controllers\ProductsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Controller;
 
@@ -37,3 +38,5 @@ Route::resource('instituition', InstituitionsController::class);
 Route::resource('group', GroupsController::class);
 
 Route::post('group/{group_id}/user', [GroupsController::class, 'userStore'])->name('group.user.store');
+
+Route::resource('instituition.product', ProductsController::class);

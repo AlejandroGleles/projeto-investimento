@@ -39,6 +39,7 @@
 </form>
 <a href="{{ route('instituition.show',$inst->id)}}">Detalhes</a>
 <a href="{{ route('instituition.edit',$inst->id)}}">Editar</a>
+<a href="{{ route('instituition.product.index',$inst->id)}}">Produtos</a>
 
                 </th>
                 

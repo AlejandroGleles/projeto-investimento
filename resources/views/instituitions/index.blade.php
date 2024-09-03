@@ -37,9 +37,9 @@
     @method('DELETE')
     <button type="submit" class="btn btn-danger">Remover</button>
 </form>
-
+<a href="{{ route('instituition.show',$inst->id)}}">Detalhes</a>
                 </th>
-
+                
             </tr>
 
 

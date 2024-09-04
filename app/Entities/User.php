@@ -28,9 +28,12 @@ class User extends Authenticatable
 
     public function groups()
     {
-        return $this->belongsToMany(User::class,'user_groups');
+        return $this->belongsToMany(Group::class,'user_groups');
     }
-
+     public function moviments()
+     {
+        return $this->hasMany(Moviment::class);
+     }
     protected $hidden = [
         'password',
         'remember_token',

@@ -4,6 +4,7 @@
         <tr>
             <th>#</th>
             <th>Nome do Gupo</th>
+            <th>Valor investido no grupo</th>
             <th>Instituição</th>
             <th>Nome do Responsavel</th>
             <th>Opções</th>
@@ -14,6 +15,7 @@
             <tr>
                 <th>{{ $group->id}}</th>
                 <th>{{ $group->name}}</th>
+                <th>R$ {{ number_format($group->total_value, 2, ',', '.') }}</th>
                 <th>{{ $group->instituition->name}}</th>
                 <th>{{ $group->owner->name}}</th>
                 <th><form action="{{ route('group.destroy', $group->id) }}" method="POST" style="display:inline;">
